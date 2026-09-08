@@ -51,7 +51,7 @@ There is no backend, no account and no upload. The site is prerendered to files 
 
 ## 📐 Why the Preview Matches the Print
 
-Most builders draw a preview and generate the PDF somewhere else, which is why the output rarely matches the screen. CVForge renders **one** element, `.arkusz`, fixed at `210mm × 297mm`:
+Most builders draw a preview and generate the PDF somewhere else, which is why the output rarely matches the screen. CVForge renders **one** element, `.sheet`, fixed at `210mm × 297mm`:
 
 - **On screen** it is scaled with `transform: scale()` and a `ResizeObserver`, while its own width stays 210mm. Scaling never changes how the text wraps.
 - **On paper** `@page { size: A4; margin: 0 }` applies, the interface is hidden with `visibility`, and the transform is reset — the browser prints the sheet at its true size.
