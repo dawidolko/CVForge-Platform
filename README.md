@@ -1,8 +1,8 @@
 # CVForge
 
-> 📄 **The preview is the print** — a CV builder that renders the same A4 sheet on screen and on paper
+> 📄 **The preview is the print** — a CV builder with an ATS check, rendering the same A4 sheet on screen and on paper
 
-**CVForge** turns a form into a finished CV. Fill in your details, choose one of three templates, and print an A4 sheet that looks exactly like the preview. Three layouts share one data model, so switching between them never loses a word you typed.
+**CVForge** turns a form into a finished CV. Fill in your details, choose one of six templates, and print an A4 sheet that looks exactly like the preview. A separate tab reviews the document the way an applicant tracking system would, and tells you what it found.
 
 There is no backend, no account and no upload. The site is prerendered to files and served by GitHub Pages; your CV lives in your own browser and leaves it only when you export it yourself.
 
@@ -20,8 +20,10 @@ There is no backend, no account and no upload. The site is prerendered to files 
 
 ## 🎯 Key Features
 
-- **The preview is the printed sheet** — not a separate mock-up. The same element is scaled on screen and sent to the printer, so nothing shifts when you press Print.
-- **Three templates, one set of content** — Classic, Two-column and Minimal read the same data. Changing the layout never drops a field.
+- **The preview is the printed sheet** — not a separate mock-up. The same element is scaled on screen and sent to the printer, so nothing shifts when you press Print. Zoom, fit-to-width and a marker showing where the page ends.
+- **An ATS check that explains itself** — eleven rules test what a parser and a ranking look at: contact block, dates, bullet points, numbers in achievements, action verbs, skill count, layout, length and risky characters. Paste a job advert and it also reports which of its words are missing from your CV.
+- **Six templates, one set of content** — Classic, Sidebar, Minimal, Timeline, Compact and Modern read the same data. Changing the layout never drops a field, and each one states whether it is safe for a parser.
+- **Light and dark themes** — applied before the first paint, so the page never flashes the wrong one.
 - **Your data never leaves the device** — the site is static and has no server to receive it. Work is saved to `localStorage`, and JSON export moves a CV between computers without an account.
 - **Type-size control for the last three lines** — a ±10% slider, for when a CV is almost, but not quite, one page.
 - **Bilingual** — English at `/`, Polish at `/pl/`, with matching `hreflang` pairs and separate JSON-LD.
@@ -31,13 +33,17 @@ There is no backend, no account and no upload. The site is prerendered to files 
 
 ## 🖼️ Screenshots
 
-| The premise in one screen                                          | The builder: form, appearance and live A4 preview                       |
-| ------------------------------------------------------------------ | ------------------------------------------------------------------------ |
-| ![The CVForge hero explaining that the preview matches the print](docs/screenshots/hero.webp) | ![The builder with the form on the left and the A4 preview on the right](docs/screenshots/kreator.webp) |
+| The premise in one screen                                          | The same page in dark mode                                            |
+| ------------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| ![The CVForge hero: a headline, a photograph and an ATS score card](docs/screenshots/hero.webp) | ![The hero rendered in the dark theme](docs/screenshots/hero-dark.webp) |
 
-| Classic                                                        | Two-column                                                       | Minimal                                                       |
-| -------------------------------------------------------------- | ----------------------------------------------------------------- | -------------------------------------------------------------- |
-| ![The Classic template: a single column with clear headings](docs/screenshots/szablon-klasyczny.webp) | ![The Two-column template with a coloured sidebar](docs/screenshots/szablon-kolumnowy.webp) | ![The Minimal template with hairline rules and white space](docs/screenshots/szablon-minimal.webp) |
+| The ATS check with its rules                                        | Keyword match against a pasted job advert                             |
+| --------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| ![The ATS tab showing a score of 95 and individual rule results](docs/screenshots/ats.webp) | ![Matched and missing keywords listed after pasting a job advert](docs/screenshots/ats-keywords.webp) |
+
+| The builder and live A4 preview                                      | The template gallery                                                   |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| ![The builder with the form on the left and the A4 sheet on the right](docs/screenshots/builder.webp) | ![Six template thumbnails rendered from the templates themselves](docs/screenshots/templates.webp) |
 
 ---
 
@@ -52,18 +58,45 @@ Because the sheet carries its own margins, the print dialog should be set to **n
 
 ---
 
+## 🔎 The ATS Check
+
+Most CVs are read by software before a person sees them. The parser wants plain text in predictable places; the ranking wants the words from the advert. `src/components/atsCheck.ts` tests both, and every rule reports what it looked for, so the score can be argued with rather than trusted blindly.
+
+| Rule | What it checks |
+| --- | --- |
+| Contact details | E-mail shape, phone and location — the fields an auto-filled application form reads first |
+| Job title | Present at all; it is the first thing matched against the vacancy |
+| Summary | 200–800 characters: shorter carries no keywords, longer will not be read |
+| Employment dates | Every position has a start date, or experience cannot be calculated |
+| Descriptions | Positions described in bullet points rather than prose |
+| Numbers | Bullets that quantify the result instead of naming a duty |
+| Action verbs | Bullets opening with a verb — Polish and English lists, feminine forms included |
+| Skills | Between five and eighteen named skills |
+| Layout | Whether the chosen template is a single text column |
+| Length | Roughly 200–700 words, the span of a usable single page |
+| Characters | Emoji and tabs that break text extraction from a PDF |
+| Advert keywords | With a job advert pasted in: which of its most frequent words appear in the CV |
+
+The analysis runs entirely in the browser — the advert you paste is never sent anywhere.
+
+---
+
 ## 🧩 Application Layer
 
 | Layer                            | Responsibility                                                                                          |
 | -------------------------------- | --------------------------------------------------------------------------------------------------------- |
 | `src/app`                        | Routing, per-language metadata, fonts, JSON-LD. Two prerendered routes: `/` and `/pl/`.                    |
-| `src/components/KreatorCV.tsx`   | The single owner of CV state — tabs, appearance, autosave, print, import and export.                       |
-| `src/components/FormularzCV.tsx` | The form. Stateless: it receives data and an updater, so it cannot disagree with the preview.               |
-| `src/components/PodgladCV.tsx`   | The A4 sheet and its scaling. Picks a template; never touches the data.                                     |
-| `src/components/szablony/`       | The three layouts. Each renders the same model and hides empty sections instead of printing bare headings.  |
-| `src/components/daneCV.ts`       | Types, the demo CV and date formatting.                                                                     |
-| `src/components/magazyn.ts`      | `localStorage` behind a guard, plus JSON import and export with shape validation.                           |
-| `src/components/tresc.ts`        | Every string in both languages. Layout lives in components, words live here.                                |
+| `src/components/Builder.tsx`     | The single owner of resume state — tabs, appearance, autosave, print, import and export.                    |
+| `src/components/ResumeForm.tsx`  | The form. Stateless: it receives data and an updater, so it cannot disagree with the preview.               |
+| `src/components/ResumePreview.tsx` | The A4 sheet, its scaling, zoom and page-break markers. Picks a template; never touches the data.          |
+| `src/components/AtsPanel.tsx`    | The ATS tab: score, per-rule findings and the advert keyword match.                                         |
+| `src/components/atsCheck.ts`     | The review itself — eleven rules plus keyword extraction, all pure functions.                                |
+| `src/components/TemplateGallery.tsx` | The gallery rail. Thumbnails are the live templates, not screenshots.                                    |
+| `src/components/templates/`      | The six layouts. Each renders the same model and hides empty sections instead of printing bare headings.    |
+| `src/components/resume.ts`       | Types, the demo CV and date formatting.                                                                     |
+| `src/components/storage.ts`      | `localStorage` behind a guard, plus JSON import and export with shape validation.                           |
+| `src/components/content.ts`      | Every string in both languages. Layout lives in components, words live here.                                |
+| `src/components/ThemeToggle.tsx` | The light/dark switch and the script that applies the theme before the first paint.                         |
 | `src/app/globals.css`            | Design tokens, the A4 sheet and the print rules. No component hard-codes a hex value except the live accent. |
 
 ---
@@ -123,15 +156,18 @@ npm run verify     # typecheck + build, the same pair the CI runs
 
 ## 🎨 Design
 
-The palette is a document, not an app: warm paper (`#faf8f5`), steel navy as the lead (`#16305c`) and copper (`#c26a36`) used only for accents — a forge, not a neon sign. Display type is **Sora**, body text is **Inter**.
+A print shop, not an app: warm paper (`#faf8f5`), ink black for text and a single saffron accent (`#c2410c`) for anything that acts. Display type is **Fraunces**, a serif with real weight; body text is **Inter**.
 
-Inside a CV the accent colour is chosen by the user from six options and is the only value a template writes inline; everything else comes from tokens declared in `@theme`.
+Both themes are declared as tokens, so components never hard-code a colour. The A4 sheet is the one deliberate exception — it stays ink on white paper even in dark mode, because that is what the printer produces.
+
+Inside a CV the accent colour is chosen by the user from six options and is the only value a template writes inline.
 
 ---
 
 ## ♿ Accessibility
 
 - Every input has a real `<label>` bound with `id` — no placeholders standing in for labels.
+- The theme is applied before the first paint, so nobody sees a flash of the wrong one.
 - Tabs expose `role="tablist"`, `aria-selected` and `aria-controls`; the panel points back with `aria-labelledby`.
 - Reordering and removing rows are ordinary buttons with text labels, reachable and operable from the keyboard.
 - Saving, importing and clearing announce themselves through `role="status"` with `aria-live="polite"`, without stealing focus.
@@ -153,14 +189,18 @@ CVForge-Platform/
     │   ├── (en)/                  # English at /
     │   └── (pl)/pl/               # Polish at /pl/
     └── components/
-        ├── KreatorCV.tsx          # state, tabs, appearance, print, import/export
-        ├── FormularzCV.tsx        # the form
-        ├── PolaFormularza.tsx     # labelled field primitives
-        ├── PodgladCV.tsx          # the A4 sheet and its scaling
-        ├── szablony/              # Classic, Two-column, Minimal
-        ├── daneCV.ts              # types, demo data, date formatting
-        ├── magazyn.ts             # localStorage, JSON import/export
-        └── tresc.ts               # all copy, PL and EN
+        ├── Builder.tsx            # state, tabs, appearance, print, import/export
+        ├── ResumeForm.tsx         # the form
+        ├── FormFields.tsx         # labelled field primitives
+        ├── ResumePreview.tsx      # the A4 sheet, zoom and page breaks
+        ├── AtsPanel.tsx           # the ATS tab
+        ├── atsCheck.ts            # the eleven rules and keyword extraction
+        ├── TemplateGallery.tsx    # live template thumbnails
+        ├── ThemeToggle.tsx        # light/dark switch
+        ├── templates/             # Classic, Sidebar, Minimal, Timeline, Compact, Modern
+        ├── resume.ts              # types, demo data, date formatting
+        ├── storage.ts             # localStorage, JSON import/export
+        └── content.ts             # all copy, PL and EN
 ```
 
 ---
