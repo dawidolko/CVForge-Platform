@@ -1,0 +1,127 @@
+@import 'tailwindcss';
+
+/*
+ * CVForge — system designu.
+ *
+ * Charakter: dokument. Ciepla biel papieru jako podstawa, granat stalowy
+ * jako kolor prowadzacy i miedz wylacznie do akcentow — bo "forge" to
+ * kuznia, a nie neon. Swiadomie inaczej niz EzPace (dzienna zielen) i
+ * EzScout (bursztynowa noc): tutaj wszystko ma wygladac jak druk.
+ */
+
+@theme {
+  --color-paper: #ffffff;
+  --color-sand-50: #faf8f5;
+  --color-sand-100: #f2ede6;
+  --color-sand-200: #e4dcd1;
+  --color-sand-300: #c8bcac;
+
+  --color-ink-900: #141820;
+  --color-ink-700: #2b333f;
+  --color-ink-500: #5a6472;
+  --color-ink-400: #7c8695;
+
+  --color-steel-700: #16305c;
+  --color-steel-600: #1e4079;
+  --color-steel-500: #2b5599;
+  --color-steel-100: #dde7f5;
+
+  --color-copper-600: #a2552a;
+  --color-copper-500: #c26a36;
+  --color-copper-100: #f8e6d9;
+
+  --font-display: 'Sora', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background: var(--color-sand-50);
+  color: var(--color-ink-700);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Fokus widoczny wszedzie — takze na ciemnych powierzchniach. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid var(--color-copper-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/*
+ * ARKUSZ A4
+ *
+ * Podglad na ekranie i wydruk musza byc tym samym elementem, inaczej to, co
+ * widac, przestaje odpowiadac temu, co wychodzi z drukarki. Rozmiar podajemy
+ * w milimetrach, a na ekranie skalujemy go transformem — sam arkusz zostaje
+ * nietkniety.
+ */
+.arkusz {
+  width: 210mm;
+  min-height: 297mm;
+  background: var(--color-paper);
+  color: var(--color-ink-900);
+  box-shadow: 0 1px 2px rgb(20 24 32 / 0.08), 0 12px 32px rgb(20 24 32 / 0.10);
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html,
+  body {
+    background: #ffffff;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Do drukarki idzie sam arkusz — bez interfejsu kreatora. */
+  body * {
+    visibility: hidden;
+  }
+
+  .arkusz,
+  .arkusz * {
+    visibility: visible;
+  }
+
+  .arkusz {
+    position: absolute;
+    inset: 0 auto auto 0;
+    box-shadow: none;
+    transform: none !important;
+    width: 210mm;
+    min-height: 297mm;
+  }
+
+  /* Kolory tla w szablonach musza przetrwac druk. */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
