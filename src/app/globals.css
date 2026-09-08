@@ -1,42 +1,70 @@
 @import 'tailwindcss';
 
 /*
- * CVForge — system designu.
+ * CVForge — design system.
  *
- * Charakter: dokument. Ciepla biel papieru jako podstawa, granat stalowy
- * jako kolor prowadzacy i miedz wylacznie do akcentow — bo "forge" to
- * kuznia, a nie neon. Swiadomie inaczej niz EzPace (dzienna zielen) i
- * EzScout (bursztynowa noc): tutaj wszystko ma wygladac jak druk.
+ * Character: a print shop. Warm paper as the base, ink black for text and a
+ * single saffron accent for anything that acts. Deliberately unlike the other
+ * platform sites: no navy, no gradient hero — this one is set like a document
+ * and reads like one.
+ *
+ * Both themes are declared here as tokens. Components never hard-code a colour
+ * except the accent a user picks for their own CV.
  */
 
 @theme {
   --color-paper: #ffffff;
-  --color-sand-50: #faf8f5;
-  --color-sand-100: #f2ede6;
-  --color-sand-200: #e4dcd1;
-  --color-sand-300: #c8bcac;
+  --color-surface: #faf7f2;
+  --color-surface-2: #f3ede3;
+  --color-line: #e2d9cb;
+  --color-line-strong: #cbbfab;
 
-  --color-ink-900: #141820;
-  --color-ink-700: #2b333f;
-  --color-ink-500: #5a6472;
-  --color-ink-400: #7c8695;
+  --color-ink: #171310;
+  --color-ink-2: #3b332c;
+  --color-ink-3: #6b6055;
+  --color-ink-4: #8d8175;
 
-  --color-steel-700: #16305c;
-  --color-steel-600: #1e4079;
-  --color-steel-500: #2b5599;
-  --color-steel-100: #dde7f5;
+  --color-saffron: #c2410c;
+  --color-saffron-2: #ea580c;
+  --color-saffron-soft: #fdf0e6;
 
-  --color-copper-600: #a2552a;
-  --color-copper-500: #c26a36;
-  --color-copper-100: #f8e6d9;
+  --color-moss: #3f6212;
+  --color-berry: #9f1239;
 
-  --font-display: 'Sora', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
   --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+}
+
+/*
+ * Dark theme.
+ *
+ * Only the tokens change; every component keeps reading the same names. The
+ * A4 sheet is the one exception — paper stays paper, because that is what the
+ * printer produces regardless of the interface theme.
+ */
+:root[data-theme='dark'] {
+  --color-paper: #16130f;
+  --color-surface: #100e0b;
+  --color-surface-2: #1d1915;
+  --color-line: #2c2620;
+  --color-line-strong: #443c33;
+
+  --color-ink: #f6f1e9;
+  --color-ink-2: #ded5c8;
+  --color-ink-3: #a99c8b;
+  --color-ink-4: #857a6c;
+
+  --color-saffron: #fb923c;
+  --color-saffron-2: #fdba74;
+  --color-saffron-soft: #2a1d12;
 }
 
 :root {
   color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
 }
 
 html {
@@ -58,33 +86,43 @@ html {
 }
 
 body {
-  background: var(--color-sand-50);
-  color: var(--color-ink-700);
+  background: var(--color-surface);
+  color: var(--color-ink-2);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
 }
 
-/* Fokus widoczny wszedzie — takze na ciemnych powierzchniach. */
 :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
-  outline: 3px solid var(--color-copper-500);
+  outline: 3px solid var(--color-saffron);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
 /*
- * ARKUSZ A4
+ * THE A4 SHEET
  *
- * Podglad na ekranie i wydruk musza byc tym samym elementem, inaczej to, co
- * widac, przestaje odpowiadac temu, co wychodzi z drukarki. Rozmiar podajemy
- * w milimetrach, a na ekranie skalujemy go transformem — sam arkusz zostaje
- * nietkniety.
+ * The preview and the print are the same element, otherwise what you see stops
+ * matching what the printer produces. The size is stated in millimetres and
+ * only scaled on screen with a transform; the sheet itself is never resized.
+ *
+ * It also keeps its own light palette in dark mode — a printed CV is ink on
+ * white paper whatever theme the interface is wearing.
  */
-.arkusz {
+.sheet {
   width: 210mm;
   min-height: 297mm;
-  background: var(--color-paper);
-  color: var(--color-ink-900);
-  box-shadow: 0 1px 2px rgb(20 24 32 / 0.08), 0 12px 32px rgb(20 24 32 / 0.10);
+  background: #ffffff;
+  color: #171310;
+  box-shadow: 0 1px 2px rgb(23 19 16 / 0.08), 0 12px 32px rgb(23 19 16 / 0.12);
+}
+
+/* Marks the point where a printed page would break. */
+.sheet-page-break {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px dashed var(--color-saffron);
+  pointer-events: none;
 }
 
 @media print {
@@ -100,17 +138,17 @@ body {
     padding: 0;
   }
 
-  /* Do drukarki idzie sam arkusz — bez interfejsu kreatora. */
+  /* Only the sheet reaches the printer — never the builder around it. */
   body * {
     visibility: hidden;
   }
 
-  .arkusz,
-  .arkusz * {
+  .sheet,
+  .sheet * {
     visibility: visible;
   }
 
-  .arkusz {
+  .sheet {
     position: absolute;
     inset: 0 auto auto 0;
     box-shadow: none;
@@ -119,7 +157,11 @@ body {
     min-height: 297mm;
   }
 
-  /* Kolory tla w szablonach musza przetrwac druk. */
+  .sheet-page-break,
+  .no-print {
+    display: none !important;
+  }
+
   * {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
