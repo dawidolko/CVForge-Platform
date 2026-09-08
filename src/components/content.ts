@@ -47,7 +47,11 @@ export type Content = {
       importJson: string;
       clear: string;
       demo: string;
+      openPreview: string;
+      importPdf: string;
     };
+    previewWindow: { print: string; downloadHtml: string; close: string; hint: string; blocked: string };
+    pdf: { title: string; hint: string; reading: string; failed: string; filled: string; textLabel: string; copyHint: string; clear: string };
     appearance: { title: string; template: string; accent: string; fontSize: string; levels: string };
     preview: { title: string; body: string; zoomIn: string; zoomOut: string; fit: string; pageBreak: string; overflow: string };
     messages: {
@@ -186,6 +190,25 @@ const PL: Content = {
       importJson: 'Wczytaj JSON',
       clear: 'Wyczyść',
       demo: 'Wczytaj przykład',
+      openPreview: 'Otwórz w nowej karcie',
+      importPdf: 'Wczytaj swoje CV (PDF)',
+    },
+    previewWindow: {
+      print: 'Drukuj / zapisz PDF',
+      downloadHtml: 'Pobierz jako plik HTML',
+      close: 'Zamknij',
+      hint: 'Marginesy w oknie druku ustaw na „brak” — arkusz ma własne.',
+      blocked: 'Przeglądarka zablokowała nowe okno. Zezwól na wyskakujące okna dla tej strony i spróbuj ponownie.',
+    },
+    pdf: {
+      title: 'Twoje obecne CV',
+      hint: 'Wczytaj PDF ze swoim CV. Wyciągniemy z niego tekst i uzupełnimy dane kontaktowe; resztę przeniesiesz do pól, bo automatyczne dzielenie treści na stanowiska bywa mylące.',
+      reading: 'Czytam plik…',
+      failed: 'Nie udało się odczytać tego PDF-a. Jeśli to skan, tekstu w nim nie ma.',
+      filled: 'Uzupełniono pola: :fields',
+      textLabel: 'Tekst wyciągnięty z pliku',
+      copyHint: 'Zaznacz fragment i przenieś go do właściwego pola formularza.',
+      clear: 'Zamknij podgląd pliku',
     },
     appearance: { title: 'Wygląd', template: 'Szablon', accent: 'Kolor akcentu', fontSize: 'Wielkość pisma', levels: 'Pokaż poziomy umiejętności' },
     preview: {
@@ -434,6 +457,25 @@ const EN: Content = {
       importJson: 'Import JSON',
       clear: 'Clear',
       demo: 'Load the example',
+      openPreview: 'Open in a new tab',
+      importPdf: 'Import your CV (PDF)',
+    },
+    previewWindow: {
+      print: 'Print / save PDF',
+      downloadHtml: 'Download as an HTML file',
+      close: 'Close',
+      hint: 'Set margins to none in the print dialog - the sheet carries its own.',
+      blocked: 'The browser blocked the new window. Allow pop-ups for this site and try again.',
+    },
+    pdf: {
+      title: 'Your current CV',
+      hint: 'Load a PDF of your CV. We extract the text and fill in the contact details; the rest you move into the fields yourself, because splitting prose into positions automatically tends to be wrong.',
+      reading: 'Reading the file...',
+      failed: 'Could not read that PDF. If it is a scan, there is no text in it.',
+      filled: 'Filled in: :fields',
+      textLabel: 'Text extracted from the file',
+      copyHint: 'Select a fragment and move it into the matching form field.',
+      clear: 'Close the file preview',
     },
     appearance: { title: 'Appearance', template: 'Template', accent: 'Accent colour', fontSize: 'Type size', levels: 'Show skill levels' },
     preview: {

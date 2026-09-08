@@ -8,6 +8,23 @@ import { AddButton, EntryCard, Field, TextAreaField } from './FormFields';
 export type FormTab = 'details' | 'experience' | 'education' | 'skills' | 'projects';
 
 /*
+ * Defined at module level on purpose.
+ *
+ * A component declared inside another component's body is a new type on every
+ * render, so React unmounts and remounts its whole subtree - which meant every
+ * input lost focus after a single keystroke. Keeping this out here is what
+ * makes typing work.
+ */
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section className="mb-8">
+      <h3 className="mb-3 font-display text-base font-bold text-ink">{title}</h3>
+      {children}
+    </section>
+  );
+}
+
+/*
  * The form.
  *
  * Stateless by design: it receives the resume and an updater. All the truth
@@ -70,13 +87,6 @@ export function ResumeForm({
       ...previous,
       languages: previous.languages.map((entry) => (entry.id === id ? { ...entry, [field]: value } : entry)),
     }));
-
-  const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-    <section className="mb-8">
-      <h3 className="mb-3 font-display text-base font-bold text-ink">{title}</h3>
-      {children}
-    </section>
-  );
 
   if (tab === 'details') {
     return (

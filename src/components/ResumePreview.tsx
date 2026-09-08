@@ -102,7 +102,7 @@ export function ResumePreview({
         </p>
       )}
 
-      <div ref={frame} className="w-full overflow-hidden">
+      <div ref={frame} className="w-full max-w-full overflow-hidden">
         <div style={{ height: SHEET_HEIGHT * scale * pages }}>
           <div
             ref={sheet}

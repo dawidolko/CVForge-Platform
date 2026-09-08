@@ -8,6 +8,9 @@ import { ResumeForm, type FormTab } from './ResumeForm';
 import { ResumePreview } from './ResumePreview';
 import { AtsPanel } from './AtsPanel';
 import { clearStorage, exportJson, importJson, loadResume, loadSettings, saveResume, saveSettings } from './storage';
+import { openPreviewWindow } from './previewWindow';
+import { readPdf } from './importPdf';
+import { fileName } from './storage';
 
 type Tab = FormTab | 'ats';
 
@@ -25,6 +28,9 @@ export function Builder({ content }: { content: Content }) {
   const [message, setMessage] = useState('');
   const [ready, setReady] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
+  const pdfInput = useRef<HTMLInputElement>(null);
+  const [pdfText, setPdfText] = useState('');
+  const [pdfBusy, setPdfBusy] = useState(false);
 
   /*
    * Saved work wins over the demo, but it is only read after mount: the server
@@ -70,6 +76,58 @@ export function Builder({ content }: { content: Content }) {
     event.target.value = '';
   }
 
+  /*
+   * Importing an existing CV. Only the fields that can be recognised without
+   * guessing are filled in; the rest of the text is shown so it can be moved
+   * across by hand.
+   */
+  async function handlePdf(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file) return;
+
+    setPdfBusy(true);
+    setPdfText('');
+    try {
+      const result = await readPdf(file);
+      setPdfText(result.text);
+
+      const filled: string[] = [];
+      setResume((previous) => {
+        const contact = { ...previous.contact };
+        for (const [key, value] of Object.entries(result.contact)) {
+          if (!value) continue;
+          const field = key as keyof typeof contact;
+          // Never overwrite something the user has already typed.
+          if (contact[field]?.trim()) continue;
+          contact[field] = value;
+          filled.push(content.builder.fields[field] ?? field);
+        }
+        return { ...previous, contact };
+      });
+
+      announce(
+        filled.length
+          ? content.builder.pdf.filled.replace(':fields', filled.join(', '))
+          : content.builder.pdf.textLabel,
+      );
+    } catch {
+      announce(content.builder.pdf.failed);
+    }
+    setPdfBusy(false);
+  }
+
+  function handleOpenPreview() {
+    const opened = openPreviewWindow(fileName(resume.contact.fullName), {
+      title: content.builder.preview.title,
+      print: content.builder.previewWindow.print,
+      downloadHtml: content.builder.previewWindow.downloadHtml,
+      close: content.builder.previewWindow.close,
+      hint: content.builder.previewWindow.hint,
+    });
+    if (!opened) announce(content.builder.previewWindow.blocked);
+  }
+
   const b = content.builder;
   const tabs: { id: Tab; label: string }[] = [
     { id: 'details', label: b.tabs.details },
@@ -111,6 +169,24 @@ export function Builder({ content }: { content: Content }) {
           >
             {b.buttons.print}
           </button>
+          <button
+            type="button"
+            onClick={handleOpenPreview}
+            className="rounded-lg border border-saffron px-3 py-2 text-sm font-medium text-saffron transition-colors hover:bg-saffron-soft"
+          >
+            {b.buttons.openPreview}
+          </button>
+          <button type="button" onClick={() => pdfInput.current?.click()} disabled={pdfBusy} className={actionButton}>
+            {pdfBusy ? b.pdf.reading : b.buttons.importPdf}
+          </button>
+          <input
+            ref={pdfInput}
+            type="file"
+            accept="application/pdf,.pdf"
+            onChange={handlePdf}
+            className="sr-only"
+            aria-label={b.buttons.importPdf}
+          />
           <button type="button" onClick={() => exportJson(resume, settings)} className={actionButton}>
             {b.buttons.exportJson}
           </button>
@@ -154,9 +230,42 @@ export function Builder({ content }: { content: Content }) {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,540px)]">
-          {/* Form column */}
-          <div>
-            <div className="no-print mb-5 flex flex-wrap gap-1 border-b border-line" role="tablist" aria-label={b.title}>
+          {/* Form column.
+              min-w-0 matters: a grid item defaults to min-width:auto, and the
+              A4 sheet in the next column is 210mm wide in layout terms even
+              when scaled down by a transform - without this the whole page
+              scrolled sideways on a phone. */}
+          <div className="min-w-0">
+            {pdfText && (
+              <section className="no-print mb-5 rounded-xl border border-line bg-paper p-4">
+                <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                  <h3 className="font-display text-sm font-bold text-ink">{b.pdf.title}</h3>
+                  <button
+                    type="button"
+                    onClick={() => setPdfText('')}
+                    className="rounded-md border border-line px-2 py-1 text-xs font-medium text-ink-3 hover:border-saffron hover:text-saffron"
+                  >
+                    {b.pdf.clear}
+                  </button>
+                </div>
+                <label htmlFor="pdf-text" className="mb-1 block text-xs font-medium text-ink-3">
+                  {b.pdf.textLabel}
+                </label>
+                <textarea
+                  id="pdf-text"
+                  readOnly
+                  rows={8}
+                  value={pdfText}
+                  aria-describedby="pdf-text-hint"
+                  className="w-full rounded-lg border border-line bg-surface px-3 py-2 font-mono text-xs leading-relaxed text-ink-2"
+                />
+                <p id="pdf-text-hint" className="mt-1 text-xs text-ink-4">
+                  {b.pdf.copyHint}
+                </p>
+              </section>
+            )}
+
+            <div className="no-print mb-5 flex flex-wrap gap-1 overflow-x-auto border-b border-line" role="tablist" aria-label={b.title}>
               {tabs.map((item) => (
                 <button
                   key={item.id}
@@ -185,7 +294,7 @@ export function Builder({ content }: { content: Content }) {
           </div>
 
           {/* Preview column */}
-          <div className="lg:sticky lg:top-20 lg:self-start">
+          <div className="min-w-0 lg:sticky lg:top-20 lg:self-start">
             <div className="no-print mb-4 rounded-xl border border-line bg-paper p-4">
               <h3 className="mb-3 font-display text-sm font-bold uppercase tracking-wider text-ink-3">
                 {b.appearance.title}

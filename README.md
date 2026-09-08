@@ -21,6 +21,8 @@ There is no backend, no account and no upload. The site is prerendered to files 
 ## 🎯 Key Features
 
 - **The preview is the printed sheet** — not a separate mock-up. The same element is scaled on screen and sent to the printer, so nothing shifts when you press Print. Zoom, fit-to-width and a marker showing where the page ends.
+- **Open the finished CV in its own tab** — a clean window with just the sheet, a print button and a download that saves it as one self-contained HTML file.
+- **Import an existing CV from a PDF** — the text is extracted in the browser and the contact details are filled in automatically; the rest is shown beside the form to move across by hand.
 - **An ATS check that explains itself** — eleven rules test what a parser and a ranking look at: contact block, dates, bullet points, numbers in achievements, action verbs, skill count, layout, length and risky characters. Paste a job advert and it also reports which of its words are missing from your CV.
 - **Six templates, one set of content** — Classic, Sidebar, Minimal, Timeline, Compact and Modern read the same data. Changing the layout never drops a field, and each one states whether it is safe for a parser.
 - **Light and dark themes** — applied before the first paint, so the page never flashes the wrong one.
@@ -91,6 +93,8 @@ The analysis runs entirely in the browser — the advert you paste is never sent
 | `src/components/ResumePreview.tsx` | The A4 sheet, its scaling, zoom and page-break markers. Picks a template; never touches the data.          |
 | `src/components/AtsPanel.tsx`    | The ATS tab: score, per-rule findings and the advert keyword match.                                         |
 | `src/components/atsCheck.ts`     | The review itself — eleven rules plus keyword extraction, all pure functions.                                |
+| `src/components/previewWindow.ts` | Opens the sheet alone in a new tab, reusing the page's own stylesheets.                                     |
+| `src/components/importPdf.ts`    | Extracts text from a PDF (pdf.js, loaded on demand) and recognises the contact fields.                       |
 | `src/components/TemplateGallery.tsx` | The gallery rail. Thumbnails are the live templates, not screenshots.                                    |
 | `src/components/templates/`      | The six layouts. Each renders the same model and hides empty sections instead of printing bare headings.    |
 | `src/components/resume.ts`       | Types, the demo CV and date formatting.                                                                     |
