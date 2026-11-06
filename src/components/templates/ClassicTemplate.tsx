@@ -23,9 +23,9 @@ export function ClassicTemplate({ resume, settings, labels }: TemplateProps) {
   return (
     <div className="px-[16mm] py-[15mm] font-body text-[10pt] leading-[1.5] text-[#171310]">
       <header className="mb-[7mm]">
-        <h1 className="font-display text-[24pt] font-extrabold leading-tight tracking-tight" style={{ color: accent }}>
+        <p className="font-display text-[24pt] font-extrabold leading-tight tracking-tight" style={{ color: accent }}>
           {resume.contact.fullName}
-        </h1>
+        </p>
         {resume.contact.jobTitle && <p className="mt-[1mm] text-[12pt] font-medium text-[#3b332c]">{resume.contact.jobTitle}</p>}
         {contacts.length > 0 && (
           <ul className="mt-[3mm] flex flex-wrap gap-x-[5mm] gap-y-[1mm] text-[9pt] text-[#6b6055]">
@@ -57,7 +57,7 @@ export function ClassicTemplate({ resume, settings, labels }: TemplateProps) {
                 </div>
                 {entry.company && <p className="text-[10pt] font-medium" style={{ color: accent }}>{entry.company}</p>}
                 {descriptionLines(entry.description).length > 0 && (
-                  <ul className="mt-[1.5mm] list-disc space-y-[0.8mm] pl-[5mm] marker:text-[#8d8175]">
+                  <ul className="mt-[1.5mm] list-disc space-y-[0.8mm] pl-[5mm] marker:text-[#766a5f]">
                     {descriptionLines(entry.description).map((line, i) => (
                       <li key={i}>{line}</li>
                     ))}
@@ -147,7 +147,7 @@ export function ClassicTemplate({ resume, settings, labels }: TemplateProps) {
       </div>
 
       {resume.clause.trim() && (
-        <p className="mt-[4mm] border-t border-[#e2d9cb] pt-[2.5mm] text-[7.5pt] leading-snug text-[#8d8175]">
+        <p className="mt-[4mm] border-t border-[#e2d9cb] pt-[2.5mm] text-[7.5pt] leading-snug text-[#766a5f]">
           {resume.clause}
         </p>
       )}

@@ -24,7 +24,7 @@ export function CompactTemplate({ resume, settings, labels }: TemplateProps) {
     <div className="px-[14mm] py-[12mm] font-body text-[9pt] leading-[1.42] text-[#171310]">
       <header className="mb-[5mm] flex flex-wrap items-end justify-between gap-x-[6mm] gap-y-[1mm]">
         <div>
-          <h1 className="font-display text-[19pt] font-bold leading-none tracking-tight">{resume.contact.fullName}</h1>
+          <p className="font-display text-[19pt] font-bold leading-none tracking-tight">{resume.contact.fullName}</p>
           {resume.contact.jobTitle && (
             <p className="mt-[1mm] text-[10pt] font-medium" style={{ color: accent }}>{resume.contact.jobTitle}</p>
           )}
@@ -54,7 +54,7 @@ export function CompactTemplate({ resume, settings, labels }: TemplateProps) {
                 <p className="flex flex-wrap items-baseline gap-x-[2mm]">
                   <span className="text-[9.5pt] font-bold">{entry.role}</span>
                   {entry.company && <span className="text-[9pt]" style={{ color: accent }}>· {entry.company}</span>}
-                  <span className="ml-auto text-[8pt] text-[#8d8175]">
+                  <span className="ml-auto text-[8pt] text-[#766a5f]">
                     {dateRange(entry.from, entry.to, entry.current, labels.present)}
                   </span>
                 </p>
@@ -81,7 +81,7 @@ export function CompactTemplate({ resume, settings, labels }: TemplateProps) {
                   <p className="text-[9pt] font-bold">{entry.course}</p>
                   <p className="text-[8.5pt] text-[#6b6055]">
                     {entry.school}
-                    <span className="text-[#8d8175]"> · {dateRange(entry.from, entry.to, false, labels.present)}</span>
+                    <span className="text-[#766a5f]"> · {dateRange(entry.from, entry.to, false, labels.present)}</span>
                   </p>
                 </li>
               ))}
@@ -127,7 +127,7 @@ export function CompactTemplate({ resume, settings, labels }: TemplateProps) {
         )}
       </div>
 
-      {resume.clause.trim() && <p className="mt-[3.5mm] text-[7pt] leading-snug text-[#8d8175]">{resume.clause}</p>}
+      {resume.clause.trim() && <p className="mt-[3.5mm] text-[7pt] leading-snug text-[#766a5f]">{resume.clause}</p>}
     </div>
   );
 }

@@ -1,9 +1,13 @@
 import type { Metadata } from 'next';
 import '../globals.css';
+import { fontVariables } from '../fonts';
+import { CONTENT_SECURITY_POLICY } from '../csp';
 import { THEME_INIT_SCRIPT } from '@/components/ThemeToggle';
 
 const OPIS =
-  'A free CV builder that runs entirely in your browser: fill in the form, pick one of three templates and print a ready A4 sheet. No account, no upload, no server.';
+  'A free CV builder that runs entirely in your browser: fill in the form, pick one of six templates and print a ready A4 sheet. No account, no upload, no server.';
+
+const OG_ALT = 'CVForge: a CV builder that fits one A4 page';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://cvforge.dawidolko.pl'),
@@ -20,12 +24,11 @@ export const metadata: Metadata = {
     siteName: 'CVForge',
     title: 'CVForge — build a CV that fits one A4 page',
     description: OPIS,
+    images: [{ url: 'https://cvforge.dawidolko.pl/og-image.png', width: 1200, height: 630, alt: OG_ALT }],
   },
-  twitter: { card: 'summary_large_image', title: 'CVForge — build a CV that fits one A4 page', description: OPIS },
+  twitter: { card: 'summary_large_image', title: 'CVForge — build a CV that fits one A4 page', description: OPIS, images: ['https://cvforge.dawidolko.pl/og-image.png'] },
   alternates: {
     canonical: 'https://cvforge.dawidolko.pl/',
-    // Obie wersje wskazuja na siebie nawzajem; angielska jest domyslna dla
-    // odwiedzajacych spoza listy jezykow.
     languages: {
       en: 'https://cvforge.dawidolko.pl/',
       pl: 'https://cvforge.dawidolko.pl/pl/',
@@ -33,6 +36,7 @@ export const metadata: Metadata = {
     },
   },
   robots: { index: true, follow: true },
+  referrer: 'strict-origin-when-cross-origin',
 };
 
 const daneStrukturalne = {
@@ -50,15 +54,10 @@ const daneStrukturalne = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={fontVariables} suppressHydrationWarning>
       <head>
+        <meta httpEquiv="Content-Security-Policy" content={CONTENT_SECURITY_POLICY} />
         <script src="/a11y/a11y-panel.js" data-accent="#1d4ed8" defer></script>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap"
-        />
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <script
           type="application/ld+json"

@@ -33,7 +33,7 @@ export function SiteFooter({ content }: { content: Content }) {
           </li>
         </ul>
       </div>
-      <p className="mx-auto mt-6 max-w-7xl px-4 text-xs text-surface-2/50 sm:px-6">
+      <p className="mx-auto mt-6 max-w-7xl px-4 text-xs text-surface-2/75 sm:px-6">
         &copy; {new Date().getFullYear()} Dawid Olko. {content.footer.rights}
       </p>
     </footer>

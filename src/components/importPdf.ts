@@ -11,15 +11,15 @@
  * worse than no guess - so the rest of the text is shown for you to move over
  * yourself.
  *
- * pdf.js is loaded from a CDN only when somebody actually imports a PDF; it
- * never weighs down the first visit.
+ * pdf.js is copied into public/ at build time and loaded only when somebody
+ * actually imports a PDF, so it never weighs down the first visit and the site
+ * talks to no third party.
  */
 
 import type { Contact } from './resume';
 
-const PDFJS_VERSION = '4.6.82';
-const PDFJS_URL = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.min.mjs`;
-const WORKER_URL = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.worker.min.mjs`;
+const PDFJS_URL = '/vendor/pdfjs/pdf.min.mjs';
+const WORKER_URL = '/vendor/pdfjs/pdf.worker.min.mjs';
 
 type PdfTextItem = { str?: string; transform?: number[] };
 type PdfPage = { getTextContent: () => Promise<{ items: PdfTextItem[] }> };
@@ -33,7 +33,7 @@ let pdfLib: PdfLib | null = null;
 
 async function loadPdfLib(): Promise<PdfLib> {
   if (pdfLib) return pdfLib;
-  const module = (await import(/* webpackIgnore: true */ PDFJS_URL)) as unknown as PdfLib;
+  const module = (await import(/* webpackIgnore: true */ /* turbopackIgnore: true */ PDFJS_URL)) as unknown as PdfLib;
   module.GlobalWorkerOptions.workerSrc = WORKER_URL;
   pdfLib = module;
   return module;

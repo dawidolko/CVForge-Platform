@@ -20,7 +20,7 @@ export function MinimalTemplate({ resume, settings, labels }: TemplateProps) {
 
   const Row = ({ meta, children }: { meta: string; children: React.ReactNode }) => (
     <li className="grid grid-cols-[26mm_1fr] gap-x-[5mm]">
-      <span className="pt-[0.6mm] text-[8.5pt] leading-snug text-[#8d8175]">{meta}</span>
+      <span className="pt-[0.6mm] text-[8.5pt] leading-snug text-[#766a5f]">{meta}</span>
       <div>{children}</div>
     </li>
   );
@@ -28,14 +28,14 @@ export function MinimalTemplate({ resume, settings, labels }: TemplateProps) {
   return (
     <div className="px-[20mm] py-[18mm] font-body text-[10pt] leading-[1.6] text-[#171310]">
       <header className="mb-[9mm]">
-        <h1 className="font-display text-[22pt] font-light leading-tight tracking-[0.02em]" style={{ color: accent }}>
+        <p className="font-display text-[22pt] font-light leading-tight tracking-[0.02em]" style={{ color: accent }}>
           {resume.contact.fullName}
-        </h1>
+        </p>
         {resume.contact.jobTitle && (
           <p className="mt-[1.5mm] text-[11pt] font-normal tracking-wide text-[#6b6055]">{resume.contact.jobTitle}</p>
         )}
         {contacts.length > 0 && (
-          <ul className="mt-[4mm] flex flex-wrap gap-x-[4mm] gap-y-[1mm] text-[8.5pt] text-[#8d8175]">
+          <ul className="mt-[4mm] flex flex-wrap gap-x-[4mm] gap-y-[1mm] text-[8.5pt] text-[#766a5f]">
             {contacts.map((row, i) => (
               <li key={row.key} className="flex items-center gap-[4mm]">
                 {i > 0 && <span aria-hidden="true" className="text-[#cbbfab]">·</span>}
@@ -122,7 +122,7 @@ export function MinimalTemplate({ resume, settings, labels }: TemplateProps) {
               {resume.languages.map((entry) => (
                 <li key={entry.id}>
                   {entry.name}
-                  {entry.level && <span className="text-[#8d8175]"> — {entry.level}</span>}
+                  {entry.level && <span className="text-[#766a5f]"> — {entry.level}</span>}
                 </li>
               ))}
             </ul>
@@ -130,7 +130,7 @@ export function MinimalTemplate({ resume, settings, labels }: TemplateProps) {
         )}
       </div>
 
-      {resume.clause.trim() && <p className="mt-[6mm] text-[7.5pt] leading-snug text-[#a39683]">{resume.clause}</p>}
+      {resume.clause.trim() && <p className="mt-[6mm] text-[7.5pt] leading-snug text-[#766a5f]">{resume.clause}</p>}
     </div>
   );
 }

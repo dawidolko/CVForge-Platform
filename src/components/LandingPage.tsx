@@ -15,7 +15,7 @@ export function LandingPage({ content }: { content: Content }) {
     <>
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-saffron focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-saffron focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-on-saffron"
       >
         {content.common.skipToContent}
       </a>
@@ -38,7 +38,7 @@ export function LandingPage({ content }: { content: Content }) {
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
                   href="#builder"
-                  className="rounded-lg bg-saffron px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-saffron-2"
+                  className="rounded-lg bg-saffron px-6 py-3 text-sm font-semibold text-on-saffron transition-colors hover:bg-saffron-2"
                 >
                   {content.hero.cta}
                 </a>
@@ -63,12 +63,14 @@ export function LandingPage({ content }: { content: Content }) {
             {/* A photograph rather than an illustration — this is a paper product. */}
             <div className="relative">
               <img
-                src="/img/hero.webp"
+                src="/img/hero-800.webp"
+                srcSet="/img/hero-480.webp 480w, /img/hero-800.webp 800w, /img/hero.webp 1600w"
+                sizes="(min-width: 1024px) 46vw, 100vw"
                 alt=""
                 width={1600}
                 height={1100}
                 className="aspect-[4/3] w-full rounded-2xl border border-line object-cover"
-                loading="eager"
+                fetchPriority="high"
                 decoding="async"
               />
               <div

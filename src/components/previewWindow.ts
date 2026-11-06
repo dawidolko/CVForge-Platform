@@ -38,7 +38,7 @@ function documentHtml(sheet: string, fileTitle: string, labels: PreviewLabels): 
     .join('\n');
 
   return `<!doctype html>
-<html lang="${document.documentElement.lang || 'en'}" data-theme="light">
+<html lang="${document.documentElement.lang || 'en'}" class="${document.documentElement.className}" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -49,11 +49,11 @@ ${styles}
   body { margin: 0; background: #e8e4dc; display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 24px 12px 48px; }
   .cvf-bar { position: sticky; top: 12px; z-index: 10; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
              background: #ffffff; border: 1px solid #e2d9cb; border-radius: 12px; padding: 10px 12px;
-             box-shadow: 0 6px 20px rgb(23 19 16 / 0.10); font: 500 14px Inter, system-ui, sans-serif; }
+             box-shadow: 0 6px 20px rgb(23 19 16 / 0.10); font: 500 14px var(--font-body); }
   .cvf-bar button { font: inherit; cursor: pointer; border-radius: 8px; padding: 8px 14px; border: 1px solid #e2d9cb; background: #fff; color: #3b332c; }
   .cvf-bar button.primary { background: #c2410c; border-color: #c2410c; color: #fff; }
   .cvf-bar button:hover { border-color: #c2410c; color: #c2410c; }
-  .cvf-bar button.primary:hover { background: #ea580c; color: #fff; }
+  .cvf-bar button.primary:hover { background: #a8380a; color: #fff; }
   .cvf-hint { color: #6b6055; font-size: 12px; }
   /* The sheet keeps its real size here; only very narrow screens scale it. */
   .sheet { box-shadow: 0 1px 2px rgb(23 19 16 / .08), 0 12px 32px rgb(23 19 16 / .14); }

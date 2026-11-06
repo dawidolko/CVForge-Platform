@@ -77,6 +77,8 @@ export function TemplateGallery({ content }: { content: Content }) {
       {/* Horizontal rail; on a touch screen it is simply swiped. */}
       <ul
         ref={rail}
+        tabIndex={0}
+        aria-label={content.templates.title}
         className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 [scrollbar-width:thin]"
       >
         {TEMPLATE_IDS.map((id) => (

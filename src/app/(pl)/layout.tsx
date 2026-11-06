@@ -1,9 +1,13 @@
 import type { Metadata } from 'next';
 import '../globals.css';
+import { fontVariables } from '../fonts';
+import { CONTENT_SECURITY_POLICY } from '../csp';
 import { THEME_INIT_SCRIPT } from '@/components/ThemeToggle';
 
 const OPIS =
-  'Darmowy kreator CV działający w całości w przeglądarce: wypełnij formularz, wybierz jeden z trzech szablonów i wydrukuj gotowy arkusz A4. Bez konta, bez wysyłania danych.';
+  'Darmowy kreator CV działający w przeglądarce: wypełnij formularz, wybierz jeden z sześciu szablonów i wydrukuj gotowy arkusz A4. Bez konta i bez wysyłania danych.';
+
+const OG_ALT = 'CVForge: kreator CV na jedną stronę A4';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://cvforge.dawidolko.pl'),
@@ -20,8 +24,9 @@ export const metadata: Metadata = {
     siteName: 'CVForge',
     title: 'CVForge — kreator CV na jedną stronę A4',
     description: OPIS,
+    images: [{ url: 'https://cvforge.dawidolko.pl/og-image.png', width: 1200, height: 630, alt: OG_ALT }],
   },
-  twitter: { card: 'summary_large_image', title: 'CVForge — kreator CV na jedną stronę A4', description: OPIS },
+  twitter: { card: 'summary_large_image', title: 'CVForge — kreator CV na jedną stronę A4', description: OPIS, images: ['https://cvforge.dawidolko.pl/og-image.png'] },
   alternates: {
     canonical: 'https://cvforge.dawidolko.pl/pl/',
     languages: {
@@ -31,6 +36,7 @@ export const metadata: Metadata = {
     },
   },
   robots: { index: true, follow: true },
+  referrer: 'strict-origin-when-cross-origin',
 };
 
 const daneStrukturalne = {
@@ -48,15 +54,10 @@ const daneStrukturalne = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pl" suppressHydrationWarning>
+    <html lang="pl" className={fontVariables} suppressHydrationWarning>
       <head>
+        <meta httpEquiv="Content-Security-Policy" content={CONTENT_SECURITY_POLICY} />
         <script src="/a11y/a11y-panel.js" data-accent="#1d4ed8" defer></script>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap"
-        />
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <script
           type="application/ld+json"

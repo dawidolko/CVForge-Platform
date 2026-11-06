@@ -165,7 +165,7 @@ export function Builder({ content }: { content: Content }) {
           <button
             type="button"
             onClick={() => window.print()}
-            className="rounded-lg bg-saffron px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-saffron-2"
+            className="rounded-lg bg-saffron px-4 py-2 text-sm font-semibold text-on-saffron transition-colors hover:bg-saffron-2"
           >
             {b.buttons.print}
           </button>

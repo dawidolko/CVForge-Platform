@@ -22,17 +22,18 @@
   --color-ink: #171310;
   --color-ink-2: #3b332c;
   --color-ink-3: #6b6055;
-  --color-ink-4: #8d8175;
+  --color-ink-4: #766a5f;
 
   --color-saffron: #c2410c;
-  --color-saffron-2: #ea580c;
+  --color-saffron-2: #a8380a;
+  --color-on-saffron: #ffffff;
   --color-saffron-soft: #fdf0e6;
 
   --color-moss: #3f6212;
   --color-berry: #9f1239;
 
-  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
-  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: var(--font-fraunces), Georgia, 'Times New Roman', serif;
+  --font-body: var(--font-inter), system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
 /*
@@ -52,10 +53,11 @@
   --color-ink: #f6f1e9;
   --color-ink-2: #ded5c8;
   --color-ink-3: #a99c8b;
-  --color-ink-4: #857a6c;
+  --color-ink-4: #958a7b;
 
   --color-saffron: #fb923c;
   --color-saffron-2: #fdba74;
+  --color-on-saffron: #171310;
   --color-saffron-soft: #2a1d12;
 }
 

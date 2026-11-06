@@ -13,7 +13,7 @@ export function SidebarTemplate({ resume, settings, labels }: TemplateProps) {
   const contacts = contactRows(resume);
 
   const AsideHeading = ({ children }: { children: string }) => (
-    <h2 className="mb-[2.5mm] text-[9pt] font-bold uppercase tracking-[0.16em] text-white/70">{children}</h2>
+    <h2 className="mb-[2.5mm] text-[9pt] font-bold uppercase tracking-[0.16em] text-white">{children}</h2>
   );
 
   const MainHeading = ({ children }: { children: string }) => (
@@ -25,13 +25,13 @@ export function SidebarTemplate({ resume, settings, labels }: TemplateProps) {
   return (
     <div className="flex min-h-[297mm] font-body text-[10pt] leading-[1.5] text-[#171310]">
       <aside className="w-[62mm] shrink-0 px-[9mm] py-[14mm] text-white" style={{ background: accent }}>
-        <h1 className="font-display text-[18pt] font-extrabold leading-[1.15] tracking-tight">{resume.contact.fullName}</h1>
-        {resume.contact.jobTitle && <p className="mt-[1.5mm] text-[10pt] font-medium text-white/85">{resume.contact.jobTitle}</p>}
+        <p className="font-display text-[18pt] font-extrabold leading-[1.15] tracking-tight">{resume.contact.fullName}</p>
+        {resume.contact.jobTitle && <p className="mt-[1.5mm] text-[10pt] font-medium text-white">{resume.contact.jobTitle}</p>}
 
         {contacts.length > 0 && (
           <section className="mt-[8mm]">
             <AsideHeading>{labels.contact}</AsideHeading>
-            <ul className="space-y-[1.6mm] text-[8.5pt] leading-snug text-white/90">
+            <ul className="space-y-[1.6mm] text-[8.5pt] leading-snug text-white">
               {contacts.map((row) => (
                 <li key={row.key} className="break-words">{row.value}</li>
               ))}
@@ -45,7 +45,7 @@ export function SidebarTemplate({ resume, settings, labels }: TemplateProps) {
             <ul className="space-y-[2mm] text-[9pt]">
               {resume.skills.map((entry) => (
                 <li key={entry.id}>
-                  <span className="text-white/90">{entry.name}</span>
+                  <span className="text-white">{entry.name}</span>
                   {settings.showSkillLevels && entry.name && (
                     <span className="mt-[1mm] flex gap-[0.8mm]" aria-hidden="true">
                       {[1, 2, 3, 4, 5].map((step) => (
@@ -66,11 +66,11 @@ export function SidebarTemplate({ resume, settings, labels }: TemplateProps) {
         {hasContent(resume.languages, ['name']) && (
           <section className="mt-[7mm]">
             <AsideHeading>{labels.languages}</AsideHeading>
-            <ul className="space-y-[1.4mm] text-[9pt] text-white/90">
+            <ul className="space-y-[1.4mm] text-[9pt] text-white">
               {resume.languages.map((entry) => (
                 <li key={entry.id} className="flex items-baseline justify-between gap-[2mm]">
                   <span>{entry.name}</span>
-                  <span className="text-[8.5pt] text-white/70">{entry.level}</span>
+                  <span className="text-[8.5pt] text-white">{entry.level}</span>
                 </li>
               ))}
             </ul>
@@ -100,7 +100,7 @@ export function SidebarTemplate({ resume, settings, labels }: TemplateProps) {
                   </div>
                   {entry.company && <p className="text-[9.5pt] font-medium" style={{ color: accent }}>{entry.company}</p>}
                   {descriptionLines(entry.description).length > 0 && (
-                    <ul className="mt-[1.5mm] list-disc space-y-[0.8mm] pl-[4mm] text-[9.5pt] marker:text-[#8d8175]">
+                    <ul className="mt-[1.5mm] list-disc space-y-[0.8mm] pl-[4mm] text-[9.5pt] marker:text-[#766a5f]">
                       {descriptionLines(entry.description).map((line, i) => (
                         <li key={i}>{line}</li>
                       ))}
@@ -150,7 +150,7 @@ export function SidebarTemplate({ resume, settings, labels }: TemplateProps) {
         )}
 
         {resume.clause.trim() && (
-          <p className="mt-[4mm] border-t border-[#e2d9cb] pt-[2.5mm] text-[7.5pt] leading-snug text-[#8d8175]">
+          <p className="mt-[4mm] border-t border-[#e2d9cb] pt-[2.5mm] text-[7.5pt] leading-snug text-[#766a5f]">
             {resume.clause}
           </p>
         )}

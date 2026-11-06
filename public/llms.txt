@@ -1,0 +1,12 @@
+# CVForge
+
+> CVForge is a free CV builder that runs entirely in the browser. Fill in a form, pick one of six templates, check the document against applicant tracking systems and print one A4 page. There is no account and nothing is uploaded.
+
+## Pages
+
+- [Home and builder (English)](https://cvforge.dawidolko.pl/): the CV builder, template gallery and FAQ
+- [Home and builder (Polish)](https://cvforge.dawidolko.pl/pl/): the same page in Polish
+
+## Author
+
+- [Dawid Olko](https://dawidolko.pl): Fullstack / AI Developer who built this site

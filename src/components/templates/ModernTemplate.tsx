@@ -22,10 +22,10 @@ export function ModernTemplate({ resume, settings, labels }: TemplateProps) {
     <div className="font-body text-[10pt] leading-[1.5] text-[#171310]">
       {/* Accent band */}
       <header className="px-[16mm] py-[11mm] text-white" style={{ background: accent }}>
-        <h1 className="font-display text-[24pt] font-extrabold leading-none tracking-tight">{resume.contact.fullName}</h1>
-        {resume.contact.jobTitle && <p className="mt-[2mm] text-[11.5pt] font-medium text-white/85">{resume.contact.jobTitle}</p>}
+        <p className="font-display text-[24pt] font-extrabold leading-none tracking-tight">{resume.contact.fullName}</p>
+        {resume.contact.jobTitle && <p className="mt-[2mm] text-[11.5pt] font-medium text-white">{resume.contact.jobTitle}</p>}
         {contacts.length > 0 && (
-          <ul className="mt-[4mm] flex flex-wrap gap-x-[5mm] gap-y-[1mm] text-[8.5pt] text-white/80">
+          <ul className="mt-[4mm] flex flex-wrap gap-x-[5mm] gap-y-[1mm] text-[8.5pt] text-white">
             {contacts.map((row) => (
               <li key={row.key}>{row.value}</li>
             ))}
@@ -53,7 +53,7 @@ export function ModernTemplate({ resume, settings, labels }: TemplateProps) {
                       <h3 className="text-[10.5pt] font-bold">{entry.role}</h3>
                       <p className="text-[9pt]">
                         {entry.company && <span style={{ color: accent }}>{entry.company}</span>}
-                        <span className="text-[#8d8175]">
+                        <span className="text-[#766a5f]">
                           {entry.company ? ' · ' : ''}
                           {dateRange(entry.from, entry.to, entry.current, labels.present)}
                         </span>
@@ -81,7 +81,7 @@ export function ModernTemplate({ resume, settings, labels }: TemplateProps) {
                   {resume.projects.map((entry) => (
                     <li key={entry.id}>
                       <h3 className="text-[10pt] font-bold">{entry.name}</h3>
-                      {entry.link && <p className="text-[8.5pt] text-[#8d8175]">{entry.link}</p>}
+                      {entry.link && <p className="text-[8.5pt] text-[#766a5f]">{entry.link}</p>}
                       {entry.description && <p className="text-[9.5pt]">{entry.description}</p>}
                     </li>
                   ))}
@@ -123,7 +123,7 @@ export function ModernTemplate({ resume, settings, labels }: TemplateProps) {
                   {resume.languages.map((entry) => (
                     <li key={entry.id} className="flex items-baseline justify-between gap-[2mm]">
                       <span>{entry.name}</span>
-                      <span className="text-[8.5pt] text-[#8d8175]">{entry.level}</span>
+                      <span className="text-[8.5pt] text-[#766a5f]">{entry.level}</span>
                     </li>
                   ))}
                 </ul>
@@ -138,7 +138,7 @@ export function ModernTemplate({ resume, settings, labels }: TemplateProps) {
                     <li key={entry.id}>
                       <p className="font-bold">{entry.course}</p>
                       <p className="text-[8.5pt] text-[#6b6055]">{entry.school}</p>
-                      <p className="text-[8pt] text-[#8d8175]">{dateRange(entry.from, entry.to, false, labels.present)}</p>
+                      <p className="text-[8pt] text-[#766a5f]">{dateRange(entry.from, entry.to, false, labels.present)}</p>
                     </li>
                   ))}
                 </ol>
@@ -148,7 +148,7 @@ export function ModernTemplate({ resume, settings, labels }: TemplateProps) {
         </div>
 
         {resume.clause.trim() && (
-          <p className="mt-[5mm] border-t border-[#e2d9cb] pt-[2.5mm] text-[7.5pt] leading-snug text-[#8d8175]">
+          <p className="mt-[5mm] border-t border-[#e2d9cb] pt-[2.5mm] text-[7.5pt] leading-snug text-[#766a5f]">
             {resume.clause}
           </p>
         )}
