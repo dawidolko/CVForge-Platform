@@ -1,3 +1,7 @@
+<p align="center">
+  <a href="https://cvforge.dawidolko.pl/"><img src="docs/readme/banner.webp" alt="CVForge: web platform. The preview is the print" width="100%"></a>
+</p>
+
 # CVForge
 
 > 📄 **The preview is the print** — a CV builder with an ATS check, rendering the same A4 sheet on screen and on paper
@@ -14,7 +18,7 @@ There is no backend, no account and no upload. The site is prerendered to files 
 ![WCAG](https://img.shields.io/badge/WCAG%202.2-AA-16A34A?logo=accessibleicon&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-**Live:** [cvforge.dawidolko.pl](https://cvforge.dawidolko.pl) · **Polski:** [cvforge.dawidolko.pl/pl](https://cvforge.dawidolko.pl/pl/)
+**[Live site](https://cvforge.dawidolko.pl/)** · [Screenshots](#️-screenshots) · [Getting started](#-getting-started)
 
 ---
 
@@ -178,6 +182,8 @@ Inside a CV the accent colour is chosen by the user from six options and is the 
 - Range inputs carry `aria-valuetext`, so a screen reader reads “3” rather than a raw percentage.
 - A skip link, a visible focus ring on every interactive element and a `prefers-reduced-motion` block that disables animation.
 
+An accessibility panel in the corner of every page changes text size, contrast, font and motion, and remembers the choice on the device. It sits on top of the markup and does not replace accessible markup.
+
 ---
 
 ## 📁 Project Structure
@@ -212,3 +218,11 @@ CVForge-Platform/
 ## 📄 License
 
 MIT © [Dawid Olko](https://dawidolko.pl)
+
+---
+
+## 👨‍💻 Author
+
+**Dawid Olko** · Fullstack / AI Developer
+
+[Portfolio](https://olkodawid.dawidolko.pl) · [CV](https://cv.dawidolko.pl) · [LinkedIn](https://www.linkedin.com/in/dawidolko/) · [GitHub](https://github.com/dawidolko)
