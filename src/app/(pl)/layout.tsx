@@ -5,7 +5,7 @@ import { CONTENT_SECURITY_POLICY } from '../csp';
 import { THEME_INIT_SCRIPT } from '@/components/ThemeToggle';
 
 const OPIS =
-  'Darmowy kreator CV działający w przeglądarce: wypełnij formularz, wybierz jeden z sześciu szablonów i wydrukuj gotowy arkusz A4. Bez konta i bez wysyłania danych.';
+  'Darmowy kreator CV działający w przeglądarce: wypełnij formularz, wybierz jeden z sześciu szablonów i wydrukuj arkusz A4. Bez konta i bez wysyłania danych.';
 
 const OG_ALT = 'CVForge: kreator CV na jedną stronę A4';
 
