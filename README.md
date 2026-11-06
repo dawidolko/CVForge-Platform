@@ -109,6 +109,14 @@ The analysis runs entirely in the browser — the advert you paste is never sent
 
 ---
 
+## 🎬 Demo
+
+<p align="center">
+  <img src="docs/readme/demo.webp" alt="CVForge: a short scroll through the live site" width="80%">
+</p>
+
+---
+
 ## 🛠️ Technology Stack
 
 ### Frontend
